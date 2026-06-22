@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products — ALAN STORE</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+    /* ============================================================
+       ALAN STORE — PRODUCTS PAGE CSS
+       ============================================================ */
+
+    /* ---------- 1. CSS CUSTOM PROPERTIES ---------- */
+    :root {
+        --black: #111111;
+        --black-light: #1a1a1a;
+        --white: #FFFFFF;
+        --orange: #FF9800;
+        --orange-dark: #E65100;
+        --orange-light: #FFB74D;
+        --light-gray: #F5F5F5;
+        --medium-gray: #999999;
+        --dark-gray: #333333;
+        --border: #E0E0E0;
+        --shadow-sm: 0 2px 10px rgba(0,0,0,0.06);
+        --shadow-md: 0 8px 30px rgba(0,0,0,0.10);
+        --shadow-lg: 0 16px 50px rgba(0,0,0,0.15);
+        --shadow-orange: 0 8px 30px rgba(255,152,0,0.3);
+        --radius-sm: 8px;
+        --radius: 14px;
+        --radius-lg: 22px;
+        --radius-xl: 30px;
+        --transition: all 0.3s cubic-bezier(.4,0,.2,1);
+        --transition-slow: all 0.5s cubic-bezier(.4,0,.2,1);
+        --font-heading: 'Sora', sans-serif;
+        --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* ---------- 2. RESET & BASE ---------- */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--dark-gray); background: var(--white); line-height: 1.6; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+    input, textarea, button, select { font-family: inherit; }
+    #mobile-toggle { position: absolute; opacity: 0; pointer-events: none; }
+
+    /* ---------- 3. TYPOGRAPHY ---------- */
+    h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); color: var(--black); line-height: 1.2; }
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; }
+    .accent { color: var(--orange); }
+
+    /* ---------- 4. UTILITY / LAYOUT ---------- */
+    .container { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 1.5rem; }
+    .section { padding: 5rem 0; }
+    .btn {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        padding: 0.8rem 2rem; border-radius: var(--radius-sm);
+        font-weight: 600; font-size: 0.95rem; cursor: pointer;
+        border: 2px solid transparent; transition: var(--transition); font-family: var(--font-body);
+    }
+    .btn-primary { background: var(--orange); color: var(--white); border-color: var(--orange); }
+    .btn-primary:hover { background: var(--orange-dark); border-color: var(--orange-dark); box-shadow: var(--shadow-orange); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--orange); border-color: var(--orange); }
+    .btn-outline:hover { background: var(--orange); color: var(--white); transform: translateY(-2px); }
+    .btn-sm { padding: 0.55rem 1.3rem; font-size: 0.85rem; }
+
+    /* ---------- 5. NAVBAR ---------- */
+    .navbar {
+        position: sticky; top: 0; z-index: 1000;
+        background: rgba(17,17,17,0.97);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 1.5rem;
+    }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 1.5rem; }
+    .logo {
+        display: flex; align-items: center; gap: 0.6rem;
+        font-family: var(--font-heading); font-weight: 800;
+        font-size: 1.5rem; color: var(--white); white-space: nowrap; letter-spacing: -0.5px;
+    }
+    .logo i { color: var(--orange); font-size: 1.3rem; }
+    .logo span { color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 0.3rem; }
+    .nav-links a {
+        color: rgba(255,255,255,0.7); font-weight: 500; font-size: 0.92rem;
+        padding: 0.5rem 1rem; border-radius: var(--radius-sm);
+        cursor: pointer; transition: var(--transition); position: relative;
+    }
+    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+    .nav-links a.active { color: var(--orange); }
+    .nav-links a::after {
+        content: ''; position: absolute; bottom: 2px; left: 50%;
+        transform: translateX(-50%) scaleX(0); width: 20px; height: 2px;
+        background: var(--orange); border-radius: 1px; transition: var(--transition);
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: translateX(-50%) scaleX(1); }
+    .nav-search { flex: 1; max-width: 380px; position: relative; }
+    .nav-search input {
+        width: 100%; padding: 0.6rem 1rem 0.6rem 2.6rem;
+        border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.07); color: var(--white);
+        font-size: 0.9rem; outline: none; transition: var(--transition);
+    }
+    .nav-search input::placeholder { color: rgba(255,255,255,0.4); }
+    .nav-search input:focus { border-color: var(--orange); background: rgba(255,255,255,0.12); box-shadow: 0 0 0 3px rgba(255,152,0,0.15); }
+    .nav-search i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+    .nav-icons { display: flex; align-items: center; gap: 0.5rem; }
+    .nav-icon {
+        width: 40px; height: 40px; display: flex; align-items: center;
+        justify-content: center; border-radius: 50%;
+        color: rgba(255,255,255,0.7); font-size: 1.05rem;
+        cursor: pointer; transition: var(--transition); position: relative;
+    }
+    .nav-icon:hover { color: var(--orange); background: rgba(255,255,255,0.06); }
+    .cart-badge {
+        position: absolute; top: 2px; right: 2px;
+        background: var(--orange); color: var(--white);
+        font-size: 0.65rem; font-weight: 700;
+        width: 18px; height: 18px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .mobile-toggle-label {
+        display: none; width: 40px; height: 40px;
+        align-items: center; justify-content: center;
+        color: var(--white); font-size: 1.3rem; cursor: pointer;
+        border-radius: var(--radius-sm); transition: var(--transition);
+    }
+    .mobile-toggle-label:hover { background: rgba(255,255,255,0.06); }
+    .mobile-nav {
+        display: none; flex-direction: column;
+        background: rgba(17,17,17,0.99);
+        border-top: 1px solid rgba(255,255,255,0.06);
+        padding: 1rem 1.5rem;
+        max-height: 0; overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+    .mobile-nav a {
+        color: rgba(255,255,255,0.7); padding: 0.8rem 1rem;
+        font-weight: 500; font-size: 0.95rem; border-radius: var(--radius-sm);
+        cursor: pointer; transition: var(--transition);
+    }
+    .mobile-nav a:hover { color: var(--orange); background: rgba(255,255,255,0.04); }
+    #mobile-toggle:checked ~ nav .mobile-nav { max-height: 400px; padding: 1rem 1.5rem; }
+
+    /* ---------- 6. PAGE HEADERS ---------- */
+    .page-header {
+        background: linear-gradient(135deg, #0a0a0a 0%, #151520 40%, #1a1028 70%, #2a1530 100%);
+        padding: 6rem 0 4rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .page-header::before {
+        content: ''; position: absolute; top: -40%; right: -15%;
+        width: 500px; height: 500px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,152,0,0.1) 0%, transparent 70%);
+    }
+    .page-header h1 { color: var(--white); margin-bottom: 0.5rem; }
+    .page-header p { color: rgba(255,255,255,0.5); }
+    .breadcrumb {
+        display: flex; align-items: center; justify-content: center;
+        gap: 0.5rem; margin-top: 1rem; font-size: 0.88rem;
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.4); transition: var(--transition); }
+    .breadcrumb a:hover { color: var(--orange); }
+    .breadcrumb span { color: var(--orange); }
+
+    /* ---------- 7. FILTER BAR ---------- */
+    .filter-bar {
+        display: flex; align-items: center; justify-content: space-between;
+        flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;
+        padding: 1rem 1.5rem; background: var(--white);
+        border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    .filter-bar span { font-size: 0.9rem; color: var(--medium-gray); }
+    .filter-bar select {
+        padding: 0.5rem 1rem; border: 1px solid var(--border);
+        border-radius: var(--radius-sm); font-size: 0.88rem;
+        outline: none; background: var(--light-gray);
+        cursor: pointer; transition: var(--transition);
+    }
+    .filter-bar select:focus { border-color: var(--orange); }
+    .filter-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-tag {
+        padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.8rem;
+        font-weight: 500; border: 1px solid var(--border); cursor: pointer;
+        transition: var(--transition); background: var(--white);
+    }
+    .filter-tag:hover, .filter-tag.active {
+        background: var(--orange); color: var(--white); border-color: var(--orange);
+    }
+
+    /* ---------- 8. PRODUCT CARDS ---------- */
+    .product-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        gap: 1.5rem;
+    }
+    .product-card {
+        background: var(--white); border-radius: var(--radius-lg);
+        border: 1px solid var(--border); overflow: hidden;
+        transition: var(--transition); position: relative;
+    }
+    .product-card:hover {
+        transform: translateY(-6px); box-shadow: var(--shadow-lg);
+        border-color: transparent;
+    }
+    .product-img {
+        position: relative; overflow: hidden; aspect-ratio: 1;
+        background: var(--light-gray);
+    }
+    .product-img img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: var(--transition-slow);
+    }
+    .product-card:hover .product-img img { transform: scale(1.08); }
+    .discount-badge {
+        position: absolute; top: 12px; left: 12px;
+        background: var(--orange); color: var(--white);
+        padding: 0.25rem 0.7rem; border-radius: 50px;
+        font-size: 0.72rem; font-weight: 700;
+    }
+    .product-actions {
+        position: absolute; top: 12px; right: 12px;
+        display: flex; flex-direction: column; gap: 0.5rem;
+        transform: translateX(60px); opacity: 0;
+        transition: var(--transition);
+    }
+    .product-card:hover .product-actions {
+        transform: translateX(0); opacity: 1;
+    }
+    .product-action-btn {
+        width: 36px; height: 36px; border-radius: 50%;
+        background: var(--white); color: var(--dark-gray);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.85rem; box-shadow: var(--shadow-sm);
+        cursor: pointer; transition: var(--transition); border: none;
+    }
+    .product-action-btn:hover { background: var(--orange); color: var(--white); }
+    .product-info { padding: 1.2rem; }
+    .product-category {
+        color: var(--orange); font-size: 0.75rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .product-title {
+        font-family: var(--font-heading); font-weight: 600;
+        font-size: 1rem; margin: 0.4rem 0; color: var(--black);
+    }
+    .product-rating { display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.6rem; }
+    .product-rating i { color: #FFC107; font-size: 0.78rem; }
+    .product-rating i.empty { color: #DDD; }
+    .product-rating span { color: var(--medium-gray); font-size: 0.78rem; margin-left: 0.2rem; }
+    .product-price { display: flex; align-items: center; gap: 0.6rem; }
+    .price-current { font-family: var(--font-heading); font-weight: 700; font-size: 1.15rem; color: var(--black); }
+    .price-old { color: var(--medium-gray); font-size: 0.88rem; text-decoration: line-through; }
+    .product-buttons { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .product-buttons .btn { flex: 1; justify-content: center; font-size: 0.82rem; padding: 0.6rem 0.8rem; }
+
+    /* ---------- 9. FOOTER ---------- */
+    .site-footer { background: var(--black); color: rgba(255,255,255,0.6); padding: 4rem 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 2.5rem; }
+    .footer-col h4 { color: var(--white); font-family: var(--font-heading); font-size: 1.05rem; margin-bottom: 1.2rem; }
+    .footer-col p { font-size: 0.88rem; line-height: 1.7; }
+    .footer-col .logo { margin-bottom: 1rem; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul li a { color: rgba(255,255,255,0.5); font-size: 0.88rem; transition: var(--transition); }
+    .footer-col ul li a:hover { color: var(--orange); padding-left: 4px; }
+    .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+    .footer-social a {
+        width: 38px; height: 38px; border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.12);
+        display: flex; align-items: center; justify-content: center;
+        color: rgba(255,255,255,0.5); font-size: 0.9rem; transition: var(--transition);
+    }
+    .footer-social a:hover { background: var(--orange); border-color: var(--orange); color: var(--white); }
+    .footer-newsletter-form {
+        display: flex; border-radius: 50px; overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1); margin-top: 0.8rem;
+    }
+    .footer-newsletter-form input { flex: 1; padding: 0.7rem 1rem; border: none; outline: none; background: rgba(255,255,255,0.05); color: var(--white); font-size: 0.85rem; }
+    .footer-newsletter-form input::placeholder { color: rgba(255,255,255,0.3); }
+    .footer-newsletter-form button { padding: 0.7rem 1.2rem; background: var(--orange); border: none; color: var(--white); cursor: pointer; font-weight: 600; font-size: 0.82rem; transition: var(--transition); }
+    .footer-newsletter-form button:hover { background: var(--orange-dark); }
+    .footer-bottom {
+        margin-top: 3rem; padding: 1.5rem 0;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;
+    }
+    .footer-bottom-links { display: flex; gap: 1.5rem; }
+    .footer-bottom-links a { transition: var(--transition); }
+    .footer-bottom-links a:hover { color: var(--orange); }
+
+    /* ---------- 10. RESPONSIVE DESIGN ---------- */
+    @media (max-width: 1024px) {
+        .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+        .nav-links, .nav-search { display: none; }
+        .mobile-toggle-label { display: flex; }
+        .mobile-nav { display: flex; }
+        .section { padding: 3.5rem 0; }
+        .product-grid { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+        .footer-grid { grid-template-columns: 1fr; }
+        .footer-bottom { flex-direction: column; gap: 0.8rem; text-align: center; }
+    }
+    @media (max-width: 480px) {
+        .product-grid { grid-template-columns: 1fr; }
+        .filter-bar { flex-direction: column; align-items: stretch; }
+        .filter-tags { justify-content: center; }
+    }
+    </style>
+</head>
+<body>
+
+<input type="checkbox" id="mobile-toggle">
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <i class="fas fa-bag-shopping"></i>
+            ALAN <span>STORE</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="categories.html">Categories</a>
+            <a href="products.html" class="active">Products</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+
+        <div class="nav-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search products, brands...">
+        </div>
+
+        <div class="nav-icons">
+            <div class="nav-icon"><i class="far fa-heart"></i></div>
+            <div class="nav-icon">
+                <i class="fas fa-cart-shopping"></i>
+                <span class="cart-badge">3</span>
+            </div>
+            <div class="nav-icon"><i class="far fa-user"></i></div>
+        </div>
+
+        <label for="mobile-toggle" class="mobile-toggle-label">
+            <i class="fas fa-bars"></i>
+        </label>
+    </div>
+
+    <div class="mobile-nav">
+        <a href="index.html"><i class="fas fa-home"></i>&nbsp; Home</a>
+        <a href="categories.html"><i class="fas fa-th-large"></i>&nbsp; Categories</a>
+        <a href="products.html"><i class="fas fa-box"></i>&nbsp; Products</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i>&nbsp; About</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i>&nbsp; Contact</a>
+    </div>
+</nav>
+
+<main>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <div class="container">
+            <h1>All Products</h1>
+            <p>Discover our full collection of premium products</p>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <i class="fas fa-chevron-right" style="font-size:0.65rem;color:rgba(255,255,255,0.3)"></i>
+                <span>Products</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section class="section">
+        <div class="container">
+            
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <span>Showing 1–12 of 156 results</span>
+                <div class="filter-tags">
+                    <span class="filter-tag active">All</span>
+                    <span class="filter-tag">Electronics</span>
+                    <span class="filter-tag">Fashion</span>
+                    <span class="filter-tag">Shoes</span>
+                    <span class="filter-tag">Watches</span>
+                </div>
+                <select>
+                    <option>Sort by: Featured</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                    <option>Newest First</option>
+                    <option>Best Rating</option>
+                </select>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-grid">
+
+                <!-- Product 1 - Red iPhone -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="images/mobile.jpg" style="width: 100%;" alt="i-phone" class="product-img">
+                        <span class="discount-badge">-25%</span>
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Electronics</span>
+                        <h3 class="product-title">iPhone 15 Pro (PRODUCT)RED</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>(4.8)</span></div>
+                        <div class="product-price"><span class="price-current">80,000</span><span class="price-old">120,000</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 2 - Smart Watch -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="images/smart watch.jpg" style="width: 100%;" alt="smart watch" class="product-img">
+                        <span class="discount-badge">-50%</span>
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Watches</span>
+                        <h3 class="product-title">Smart Watch Ultra</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(5.0)</span></div>
+                        <div class="product-price"><span class="price-current">2400</span><span class="price-old">4800</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 3 - Leather Jacket -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=500&fit=crop" alt="Premium Leather Jacket">
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Fashion</span>
+                        <h3 class="product-title">Premium Leather Jacket</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star empty"></i><span>(4.0)</span></div>
+                        <div class="product-price"><span class="price-current">3800</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 4 - Running Shoes -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop" alt="Air Max Running Shoes">
+                        <span class="discount-badge">-50%</span>
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Shoes</span>
+                        <h3 class="product-title">Air Max Running Shoes</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>(4.7)</span></div>
+                        <div class="product-price"><span class="price-current">2800</span><span class="price-old">5600</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 5 - Handbag -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&h=500&fit=crop" alt="Designer Handbag">
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Bags</span>
+                        <h3 class="product-title">Designer Handbag</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(5.0)</span></div>
+                        <div class="product-price"><span class="price-current">3500</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 6 - Smart Speaker -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500&h=500&fit=crop" alt="Smart Home Speaker">
+                        <span class="discount-badge">-50%</span>
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Electronics</span>
+                        <h3 class="product-title">Smart Home Speaker</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star empty"></i><span>(4.2)</span></div>
+                        <div class="product-price"><span class="price-current">2500</span><span class="price-old">5000</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 7 - Monitor -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500&h=500&fit=crop" alt="4K Ultra HD Monitor">
+                        <span class="discount-badge">-25%</span>
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Electronics</span>
+                        <h3 class="product-title">4K Ultra HD Monitor</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>(4.8)</span></div>
+                        <div class="product-price"><span class="price-current">150000</span><span class="price-old">200000</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 8 - Analog Watch -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&h=500&fit=crop" alt="Classic Analog Watch">
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Watches</span>
+                        <h3 class="product-title">Classic Analog Watch</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star empty"></i><span>(4.1)</span></div>
+                        <div class="product-price"><span class="price-current">4000</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 9 - Books -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&h=500&fit=crop" alt="Bestseller Novel Collection">
+                        <span class="discount-badge">-20%</span>
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Books</span>
+                        <h3 class="product-title">Bestseller Novel Collection</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(5.0)</span></div>
+                        <div class="product-price"><span class="price-current">400</span><span class="price-old">500</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 10 - Fitness -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&h=500&fit=crop" alt="Pro Fitness Equipment">
+                        <span class="discount-badge">-20%</span>
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Sports</span>
+                        <h3 class="product-title">Pro Fitness Equipment</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>(4.6)</span></div>
+                        <div class="product-price"><span class="price-current">120,000</span><span class="price-old">150,000</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 11 - Lamp -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="images/lamp.jfif" style="width: 100%;" alt="lamp" class="product-img">
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Home Decor</span>
+                        <h3 class="product-title">Modern Floor Lamp</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star empty"></i><span>(4.3)</span></div>
+                        <div class="product-price"><span class="price-current">3200</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+                <!-- Product 12 - Backpack -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=500&fit=crop" alt="Travel Backpack">
+                        <span class="discount-badge">-50%</span>
+                        <div class="product-actions"><button class="product-action-btn"><i class="far fa-heart"></i></button><button class="product-action-btn"><i class="fas fa-eye"></i></button></div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Bags</span>
+                        <h3 class="product-title">Travel Backpack</h3>
+                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>(4.5)</span></div>
+                        <div class="product-price"><span class="price-current">3500</span><span class="price-old">7000</span></div>
+                        <div class="product-buttons"><button class="btn btn-outline btn-sm">Add to Cart</button><button class="btn btn-primary btn-sm">Buy Now</button></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="logo"><i class="fas fa-bag-shopping"></i> ALAN <span>STORE</span></a>
+                <p>Your trusted destination for premium products from the world's top brands. Quality, value, and exceptional service — every time.</p>
+                <div class="footer-social"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Track Your Order</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p>Subscribe for exclusive deals, new arrivals, and insider-only discounts.</p>
+                <form class="footer-newsletter-form" action="#" method="post">
+                    <input type="email" placeholder="Your email" required>
+                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 ALAN STORE. All rights reserved.</span>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Settings</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
