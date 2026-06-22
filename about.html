@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us — ALAN STORE</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+    /* ============================================================
+       ALAN STORE — ABOUT PAGE CSS
+       ============================================================ */
+
+    /* ---------- 1. CSS CUSTOM PROPERTIES ---------- */
+    :root {
+        --black: #111111;
+        --black-light: #1a1a1a;
+        --white: #FFFFFF;
+        --orange: #FF9800;
+        --orange-dark: #E65100;
+        --orange-light: #FFB74D;
+        --light-gray: #F5F5F5;
+        --medium-gray: #999999;
+        --dark-gray: #333333;
+        --border: #E0E0E0;
+        --shadow-sm: 0 2px 10px rgba(0,0,0,0.06);
+        --shadow-md: 0 8px 30px rgba(0,0,0,0.10);
+        --shadow-lg: 0 16px 50px rgba(0,0,0,0.15);
+        --shadow-orange: 0 8px 30px rgba(255,152,0,0.3);
+        --radius-sm: 8px;
+        --radius: 14px;
+        --radius-lg: 22px;
+        --radius-xl: 30px;
+        --transition: all 0.3s cubic-bezier(.4,0,.2,1);
+        --transition-slow: all 0.5s cubic-bezier(.4,0,.2,1);
+        --font-heading: 'Sora', sans-serif;
+        --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* ---------- 2. RESET & BASE ---------- */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--dark-gray); background: var(--white); line-height: 1.6; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+    input, textarea, button, select { font-family: inherit; }
+    #mobile-toggle { position: absolute; opacity: 0; pointer-events: none; }
+
+    /* ---------- 3. TYPOGRAPHY ---------- */
+    h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); color: var(--black); line-height: 1.2; }
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; }
+    h2 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 700; }
+    h3 { font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 600; }
+    .section-subtitle { color: var(--medium-gray); font-size: 1.05rem; max-width: 560px; margin: 0.6rem auto 0; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .accent { color: var(--orange); }
+    .accent-line { width: 60px; height: 4px; background: var(--orange); border-radius: 2px; margin: 0.8rem auto 0; }
+
+    /* ---------- 4. UTILITY / LAYOUT ---------- */
+    .container { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 1.5rem; }
+    .section { padding: 5rem 0; }
+    .section-alt { background: var(--light-gray); }
+    .btn {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        padding: 0.8rem 2rem; border-radius: var(--radius-sm);
+        font-weight: 600; font-size: 0.95rem; cursor: pointer;
+        border: 2px solid transparent; transition: var(--transition); font-family: var(--font-body);
+    }
+    .btn-primary { background: var(--orange); color: var(--white); border-color: var(--orange); }
+    .btn-primary:hover { background: var(--orange-dark); border-color: var(--orange-dark); box-shadow: var(--shadow-orange); transform: translateY(-2px); }
+
+    /* ---------- 5. NAVBAR ---------- */
+    .navbar {
+        position: sticky; top: 0; z-index: 1000;
+        background: rgba(17,17,17,0.97);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 1.5rem;
+    }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 1.5rem; }
+    .logo {
+        display: flex; align-items: center; gap: 0.6rem;
+        font-family: var(--font-heading); font-weight: 800;
+        font-size: 1.5rem; color: var(--white); white-space: nowrap; letter-spacing: -0.5px;
+    }
+    .logo i { color: var(--orange); font-size: 1.3rem; }
+    .logo span { color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 0.3rem; }
+    .nav-links a {
+        color: rgba(255,255,255,0.7); font-weight: 500; font-size: 0.92rem;
+        padding: 0.5rem 1rem; border-radius: var(--radius-sm);
+        cursor: pointer; transition: var(--transition); position: relative;
+    }
+    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+    .nav-links a.active { color: var(--orange); }
+    .nav-links a::after {
+        content: ''; position: absolute; bottom: 2px; left: 50%;
+        transform: translateX(-50%) scaleX(0); width: 20px; height: 2px;
+        background: var(--orange); border-radius: 1px; transition: var(--transition);
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: translateX(-50%) scaleX(1); }
+    .nav-search { flex: 1; max-width: 380px; position: relative; }
+    .nav-search input {
+        width: 100%; padding: 0.6rem 1rem 0.6rem 2.6rem;
+        border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.07); color: var(--white);
+        font-size: 0.9rem; outline: none; transition: var(--transition);
+    }
+    .nav-search input::placeholder { color: rgba(255,255,255,0.4); }
+    .nav-search input:focus { border-color: var(--orange); background: rgba(255,255,255,0.12); box-shadow: 0 0 0 3px rgba(255,152,0,0.15); }
+    .nav-search i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+    .nav-icons { display: flex; align-items: center; gap: 0.5rem; }
+    .nav-icon {
+        width: 40px; height: 40px; display: flex; align-items: center;
+        justify-content: center; border-radius: 50%;
+        color: rgba(255,255,255,0.7); font-size: 1.05rem;
+        cursor: pointer; transition: var(--transition); position: relative;
+    }
+    .nav-icon:hover { color: var(--orange); background: rgba(255,255,255,0.06); }
+    .cart-badge {
+        position: absolute; top: 2px; right: 2px;
+        background: var(--orange); color: var(--white);
+        font-size: 0.65rem; font-weight: 700;
+        width: 18px; height: 18px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .mobile-toggle-label {
+        display: none; width: 40px; height: 40px;
+        align-items: center; justify-content: center;
+        color: var(--white); font-size: 1.3rem; cursor: pointer;
+        border-radius: var(--radius-sm); transition: var(--transition);
+    }
+    .mobile-toggle-label:hover { background: rgba(255,255,255,0.06); }
+    .mobile-nav {
+        display: none; flex-direction: column;
+        background: rgba(17,17,17,0.99);
+        border-top: 1px solid rgba(255,255,255,0.06);
+        padding: 1rem 1.5rem;
+        max-height: 0; overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+    .mobile-nav a {
+        color: rgba(255,255,255,0.7); padding: 0.8rem 1rem;
+        font-weight: 500; font-size: 0.95rem; border-radius: var(--radius-sm);
+        cursor: pointer; transition: var(--transition);
+    }
+    .mobile-nav a:hover { color: var(--orange); background: rgba(255,255,255,0.04); }
+    #mobile-toggle:checked ~ nav .mobile-nav { max-height: 400px; padding: 1rem 1.5rem; }
+
+    /* ---------- 6. PAGE HEADERS ---------- */
+    .page-header {
+        background: linear-gradient(135deg, #0a0a0a 0%, #151520 40%, #1a1028 70%, #2a1530 100%);
+        padding: 6rem 0 4rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .page-header::before {
+        content: ''; position: absolute; top: -40%; right: -15%;
+        width: 500px; height: 500px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,152,0,0.1) 0%, transparent 70%);
+    }
+    .page-header h1 { color: var(--white); margin-bottom: 0.5rem; }
+    .page-header p { color: rgba(255,255,255,0.5); }
+    .breadcrumb {
+        display: flex; align-items: center; justify-content: center;
+        gap: 0.5rem; margin-top: 1rem; font-size: 0.88rem;
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.4); transition: var(--transition); }
+    .breadcrumb a:hover { color: var(--orange); }
+    .breadcrumb span { color: var(--orange); }
+
+    /* ---------- 7. ABOUT INTRO ---------- */
+    .about-intro {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+        align-items: center;
+    }
+    .about-intro-img {
+        border-radius: var(--radius-xl); overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+    .about-intro-img img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition-slow); }
+    .about-intro-img:hover img { transform: scale(1.04); }
+    .about-intro-content h2 { margin-bottom: 1rem; }
+    .about-intro-content p { color: var(--medium-gray); line-height: 1.8; margin-bottom: 1rem; }
+
+    /* ---------- 8. MISSION & VISION ---------- */
+    .mission-vision {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    .mv-card {
+        background: var(--white); border: 1px solid var(--border);
+        border-radius: var(--radius-lg); padding: 2.5rem;
+        transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .mv-card::before {
+        content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+        background: var(--orange); border-radius: 2px;
+    }
+    .mv-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: transparent; }
+    .mv-card i { font-size: 2rem; color: var(--orange); margin-bottom: 1rem; }
+    .mv-card h3 { margin-bottom: 0.8rem; }
+    .mv-card p { color: var(--medium-gray); line-height: 1.7; }
+
+    /* ---------- 9. WHY CHOOSE US ---------- */
+    .why-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    }
+    .why-card {
+        text-align: center; padding: 2.5rem 1.5rem;
+        background: var(--white); border: 1px solid var(--border);
+        border-radius: var(--radius-lg); transition: var(--transition);
+    }
+    .why-card:hover {
+        transform: translateY(-6px); box-shadow: var(--shadow-md);
+        border-color: transparent;
+    }
+    .why-card .why-icon {
+        width: 64px; height: 64px; border-radius: var(--radius);
+        background: linear-gradient(135deg, rgba(255,152,0,0.12), rgba(255,152,0,0.04));
+        display: flex; align-items: center; justify-content: center;
+        margin: 0 auto 1.2rem; font-size: 1.5rem; color: var(--orange);
+        transition: var(--transition);
+    }
+    .why-card:hover .why-icon { background: var(--orange); color: var(--white); transform: rotate(-8deg) scale(1.1); }
+    .why-card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .why-card p { color: var(--medium-gray); font-size: 0.88rem; line-height: 1.6; }
+
+    /* ---------- 10. STATISTICS ---------- */
+    .stats-section {
+        background: linear-gradient(135deg, var(--black) 0%, #1a1a2e 100%);
+        padding: 4rem 0; border-radius: var(--radius-xl); margin-top: 2rem;
+    }
+    .stats-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+        text-align: center;
+    }
+    .stat-item h3 {
+        font-family: var(--font-heading); font-weight: 800;
+        font-size: 2.5rem; color: var(--orange); margin-bottom: 0.3rem;
+    }
+    .stat-item p { color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+
+    /* ---------- 11. FOOTER ---------- */
+    .site-footer { background: var(--black); color: rgba(255,255,255,0.6); padding: 4rem 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 2.5rem; }
+    .footer-col h4 { color: var(--white); font-family: var(--font-heading); font-size: 1.05rem; margin-bottom: 1.2rem; }
+    .footer-col p { font-size: 0.88rem; line-height: 1.7; }
+    .footer-col .logo { margin-bottom: 1rem; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul li a { color: rgba(255,255,255,0.5); font-size: 0.88rem; transition: var(--transition); }
+    .footer-col ul li a:hover { color: var(--orange); padding-left: 4px; }
+    .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+    .footer-social a {
+        width: 38px; height: 38px; border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.12);
+        display: flex; align-items: center; justify-content: center;
+        color: rgba(255,255,255,0.5); font-size: 0.9rem; transition: var(--transition);
+    }
+    .footer-social a:hover { background: var(--orange); border-color: var(--orange); color: var(--white); }
+    .footer-newsletter-form {
+        display: flex; border-radius: 50px; overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1); margin-top: 0.8rem;
+    }
+    .footer-newsletter-form input { flex: 1; padding: 0.7rem 1rem; border: none; outline: none; background: rgba(255,255,255,0.05); color: var(--white); font-size: 0.85rem; }
+    .footer-newsletter-form input::placeholder { color: rgba(255,255,255,0.3); }
+    .footer-newsletter-form button { padding: 0.7rem 1.2rem; background: var(--orange); border: none; color: var(--white); cursor: pointer; font-weight: 600; font-size: 0.82rem; transition: var(--transition); }
+    .footer-newsletter-form button:hover { background: var(--orange-dark); }
+    .footer-bottom {
+        margin-top: 3rem; padding: 1.5rem 0;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;
+    }
+    .footer-bottom-links { display: flex; gap: 1.5rem; }
+    .footer-bottom-links a { transition: var(--transition); }
+    .footer-bottom-links a:hover { color: var(--orange); }
+
+    /* ---------- 12. RESPONSIVE DESIGN ---------- */
+    @media (max-width: 1024px) {
+        .about-intro { grid-template-columns: 1fr; gap: 2rem; }
+        .mission-vision { grid-template-columns: 1fr; }
+        .why-grid { grid-template-columns: repeat(2, 1fr); }
+        .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+        .nav-links, .nav-search { display: none; }
+        .mobile-toggle-label { display: flex; }
+        .mobile-nav { display: flex; }
+        .section { padding: 3.5rem 0; }
+        .footer-grid { grid-template-columns: 1fr; }
+        .footer-bottom { flex-direction: column; gap: 0.8rem; text-align: center; }
+    }
+    @media (max-width: 480px) {
+        .why-grid { grid-template-columns: 1fr; }
+        .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+    </style>
+</head>
+<body>
+
+<input type="checkbox" id="mobile-toggle">
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <i class="fas fa-bag-shopping"></i>
+            ALAN <span>STORE</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="categories.html">Categories</a>
+            <a href="products.html">Products</a>
+            <a href="about.html" class="active">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+
+        <div class="nav-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search products, brands...">
+        </div>
+
+        <div class="nav-icons">
+            <div class="nav-icon"><i class="far fa-heart"></i></div>
+            <div class="nav-icon">
+                <i class="fas fa-cart-shopping"></i>
+                <span class="cart-badge">3</span>
+            </div>
+            <div class="nav-icon"><i class="far fa-user"></i></div>
+        </div>
+
+        <label for="mobile-toggle" class="mobile-toggle-label">
+            <i class="fas fa-bars"></i>
+        </label>
+    </div>
+
+    <div class="mobile-nav">
+        <a href="index.html"><i class="fas fa-home"></i>&nbsp; Home</a>
+        <a href="categories.html"><i class="fas fa-th-large"></i>&nbsp; Categories</a>
+        <a href="products.html"><i class="fas fa-box"></i>&nbsp; Products</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i>&nbsp; About</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i>&nbsp; Contact</a>
+    </div>
+</nav>
+
+<main>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <div class="container">
+            <h1>About ALAN STORE</h1>
+            <p>Learn more about who we are and what drives us</p>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <i class="fas fa-chevron-right" style="font-size:0.65rem;color:rgba(255,255,255,0.3)"></i>
+                <span>About</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT INTRO -->
+    <section class="section">
+        <div class="container">
+            <div class="about-intro">
+                <div class="about-intro-content">
+                    <h2>THIS IS <span class="accent">ALAN STORE</span></h2>
+                    <p>Founded in 2026, ALAN STORE has grown into one of the most trusted online shopping destinations worldwide. We connect millions of customers with thousands of brands, offering an unparalleled selection of premium products at competitive prices.</p>
+                    <p>Our commitment to quality, innovation, and customer satisfaction drives everything we do. From the latest tech gadgets to timeless fashion pieces, we curate every product to ensure it meets our high standards.</p>
+                    <a href="products.html" class="btn btn-primary" style="margin-top:1rem;">
+                        Explore Products <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="about-intro-img">
+                     <img src="images/AK.png" style="width: 100%;" alt="about alan store" class="product-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION & VISION -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2>Mission &amp; Vision</h2>
+                <p class="section-subtitle">The principles that guide us forward</p>
+                <div class="accent-line"></div>
+            </div>
+            <div class="mission-vision">
+                <div class="mv-card">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>Our Mission</h3>
+                    <p>To make premium products accessible to everyone by providing a seamless, secure, and enjoyable online shopping experience. We strive to bridge the gap between quality and affordability, ensuring every customer finds exactly what they need.</p>
+                </div>
+                <div class="mv-card">
+                    <i class="fas fa-eye"></i>
+                    <h3>Our Vision</h3>
+                    <p>To become the world's most customer-centric online marketplace — where innovation meets trust, and every interaction leaves a lasting positive impression. We envision a future where shopping is effortless, inclusive, and inspiring.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose <span class="accent">Us</span></h2>
+                <p class="section-subtitle">What sets ALAN STORE apart from the rest</p>
+                <div class="accent-line"></div>
+            </div>
+            <div class="why-grid">
+                <div class="why-card">
+                     <img src="images/fast delivery.jfif" style="width: 100%;" alt="fast delivery" class="product-img">
+                    <h3>Fast Delivery</h3>
+                    <p>Free delivery on orders over 2000. Get your product as soon as possible..</p>
+                </div>
+                <div class="why-card">
+                     <img src="images/secure.jfif" style="width: 100%;" alt="secure" class="product-img">
+                    <h3>Secure Payments</h3>
+                    <p>Your payment will be completely secure here</p>
+                </div>
+                <div class="why-card">
+                     <img src="images/return.jfif" style="width: 100%;" alt="return" class="product-img">
+                    <h3>Easy Returns</h3>
+                    <p>Products can be returned within 48 hours. If there is a problem. No questions asked — your satisfaction guaranteed.</p>
+                </div>
+                <div class="why-card">
+                     <img src="images/support.jpg" style="width: 100%;" alt="support" class="product-img">
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated support team is always ready to help you with any questions or concerns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATISTICS -->
+    <section class="section">
+        <div class="container">
+            <div class="stats-section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <h3>5K+</h3>
+                            <p>Happy Customers</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>1K+</h3>
+                            <p>Products Listed</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>100+</h3>
+                            <p>Trusted Brands</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>10+</h3>
+                            <p>Countries Served</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="logo"><i class="fas fa-bag-shopping"></i> ALAN <span>STORE</span></a>
+                <p>Your trusted destination for premium products from the world's top brands. Quality, value, and exceptional service — every time.</p>
+                <div class="footer-social"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Track Your Order</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p>Subscribe for exclusive deals, new arrivals, and insider-only discounts.</p>
+                <form class="footer-newsletter-form" action="#" method="post">
+                    <input type="email" placeholder="Your email" required>
+                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 ALAN STORE. All rights reserved.</span>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Settings</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
